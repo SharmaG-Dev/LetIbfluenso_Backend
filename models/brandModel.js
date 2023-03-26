@@ -33,6 +33,8 @@ const schema = new mongoose.Schema({
   OwnerStatus: String,
   hiredInfluencer: String,
   savedProfiles: [],
+  following: [],
+  followers: [],
   createdAt: { type: Date, default: new Date() },
 });
 

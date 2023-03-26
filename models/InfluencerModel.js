@@ -5,7 +5,7 @@ const schema = new mongoose.Schema({
   username: String,
   email: String,
   contact: Number,
-  category:String,
+  category: String,
   password: String,
   avatar: String,
   coverimage: String,
@@ -15,6 +15,8 @@ const schema = new mongoose.Schema({
   youtube: Object,
   instagram: Object,
   personal: Object,
+  following: [],
+  followers: [],
 });
 
 const InfluencerModel = mongoose.model("influencerUsers", schema);

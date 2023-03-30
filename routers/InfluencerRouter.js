@@ -117,13 +117,13 @@ router.patch("/unfollow/:id", (req, res) => {
   let id = req.params.id;
   let followingTo = req.body.secondperson;
 
-  const FollowingUpadate = InfluencerModel.findByIdAndUpdate(id, { $pop: { following: followingTo } }, { new: true })
+  const FollowingUpadate = InfluencerModel.findByIdAndUpdate(id, { $pull: { following: followingTo } }, { new: true })
   FollowingUpadate.then((data) => {
     res.status(200).json(data)
   }).catch((Err) => {
     res.status(500).json(Err)
   })
-  const FollowerUpdate = InfluencerModel.findByIdAndUpdate(followingTo, { $pop: { followers: id } }, { new: true })
+  const FollowerUpdate = InfluencerModel.findByIdAndUpdate(followingTo, { $pull: { followers: id } }, { new: true })
   FollowerUpdate.then((data) => {
     res.status(200).json(data)
   }).catch((Err) => {

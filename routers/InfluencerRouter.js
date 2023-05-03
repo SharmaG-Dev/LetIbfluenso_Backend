@@ -97,17 +97,30 @@ router.patch("/follow/:id", (req, res) => {
   let id = req.params.id;
   let followingTo = req.body.secondperson;
 
-  const FollowingUpadate = InfluencerModel.findByIdAndUpdate(id, { $push: { following: followingTo } }, { new: true })
-  FollowingUpadate.then((data) => {
-    res.status(200).json(data)
-  }).catch((Err) => {
-    res.status(500).json(Err)
+  InfluencerModel.findById(id).then(data => {
+    if (data.following.includes(followingTo) === false) {
+      const FollowingUpadate = InfluencerModel.findByIdAndUpdate(id, { $push: { following: followingTo } }, { new: true })
+      FollowingUpadate.then((data) => {
+        res.status(200).json(data)
+      }).catch((Err) => {
+        res.status(500).json(Err)
+      })
+    } else {
+      res.status(200).json({ message: "Already Unfollowed" })
+    }
   })
-  const FollowerUpdate = InfluencerModel.findByIdAndUpdate(followingTo, { $push: { followers: id } }, { new: true })
-  FollowerUpdate.then((data) => {
-    res.status(200).json(data)
-  }).catch((Err) => {
-    res.status(500).json(Err)
+
+  InfluencerModel.findById(followingTo).then(data => {
+    if (data.followers.includes(id)) {
+      const FollowerUpdate = InfluencerModel.findByIdAndUpdate(followingTo, { $push: { followers: id } }, { new: true })
+      FollowerUpdate.then((data) => {
+        res.status(200).json(data)
+      }).catch((Err) => {
+        res.status(500).json(Err)
+      })
+    } else {
+      res.status(200).json({ message: "Already Unfollowed" })
+    }
   })
 });
 
@@ -117,18 +130,32 @@ router.patch("/unfollow/:id", (req, res) => {
   let id = req.params.id;
   let followingTo = req.body.secondperson;
 
-  const FollowingUpadate = InfluencerModel.findByIdAndUpdate(id, { $pull: { following: followingTo } }, { new: true })
-  FollowingUpadate.then((data) => {
-    res.status(200).json(data)
-  }).catch((Err) => {
-    res.status(500).json(Err)
+  InfluencerModel.findById(id).then(data => {
+    if (data.following.includes(followingTo) === false) {
+      const FollowingUpadate = InfluencerModel.findByIdAndUpdate(id, { $pull: { following: followingTo } }, { new: true })
+      FollowingUpadate.then((data) => {
+        res.status(200).json(data)
+      }).catch((Err) => {
+        res.status(500).json(Err)
+      })
+    } else {
+      res.status(200).json({ message: "Already Unfollowed" })
+    }
   })
-  const FollowerUpdate = InfluencerModel.findByIdAndUpdate(followingTo, { $pull: { followers: id } }, { new: true })
-  FollowerUpdate.then((data) => {
-    res.status(200).json(data)
-  }).catch((Err) => {
-    res.status(500).json(Err)
+
+  InfluencerModel.findById(followingTo).then(data => {
+    if (data.followers.includes(id)) {
+      const FollowerUpdate = InfluencerModel.findByIdAndUpdate(followingTo, { $pull: { followers: id } }, { new: true })
+      FollowerUpdate.then((data) => {
+        res.status(200).json(data)
+      }).catch((Err) => {
+        res.status(500).json(Err)
+      })
+    } else {
+      res.status(200).json({ message: "Already Unfollowed" })
+    }
   })
+
 });
 
 
